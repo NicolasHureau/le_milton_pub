@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Black_Chancery';
+    src: url('../assets/BLKCHCRY.TTF');
+}
+
+:root {
+    --primaryColor: green;
+
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    background-color: var(--primaryColor);
+}
+
+h1, .navbar-brand {
+    font-family: 'Black_Chancery';
+}
