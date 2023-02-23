@@ -1,6 +1,6 @@
 <?php
     class DbManager {
-        protected function connection(){
+        protected static function connection(){
             try{
                 $db = new PDO('mysql:host=localhost;dbname=le_milton_pub;charset=utf8','root','');
             }

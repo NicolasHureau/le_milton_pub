@@ -1,9 +1,7 @@
 <?php
-    require('model/NewsManager.php');
-    require('model/RestaurantManager.php');
-    require('model/DrinksManager.php');
-    require('model/UsersManager.php');
-    require('model/NotesManager.php');
+    spl_autoload_register(function ($classe){
+        require_once('model/'.$classe.'.php');
+    });
 
     function home(){
         $newsManager = new NewsManager();
@@ -47,32 +45,53 @@
         // $request = $rhumsManager->getRhums();
         require('view/alcoolView.php');
     }
-    function connection(){
-
-        require('view/connectionView.php');
+    function connection(){require('view/connectionView.php');}
+    function connect($email,$password){
+        $user = SecurityManager::checkDataConnect($email,$password);
+        $usersManager = new UsersManager(   $user['pseudo'],
+                                            $user['first_name'],
+                                            $user['last_name'],
+                                            $user['birthday'],
+                                            $user['email'],
+                                            $user['password'],
+                                            $user['secret'],
+                                            $user['role']);
+        $usersManager->connect();
+        header('location: index.php?page=connection&success=1');
     }
-    function club(){
-        require('view/clubView.php');
-    }
-    function addUser($pseudo,$first_name,$last_name,$birthday,$email,$password){
-        $usersManager = new UsersManager();
-        $checkPseudo = $usersManager->comparePseudo($pseudo);
-        $checkEmail = $usersManager->compareEmail($email);
-        if($checkPseudo && $checkEmail){
-            $result = $usersManager->setUser($pseudo,$first_name,$last_name,$birthday,$email,$password);
-            if($result === false){
-                throw new Exception("Impossible d'ajouter un nouvel utilisateur pour le moment.");
-            }
-            else{
-                header('location: index.php?page=club&success=1');
-                
+    function club(){require('view/clubView.php');}
+    function addNewUser($pseudo,
+                        $first_name,
+                        $last_name,
+                        $birthday,
+                        $email,
+                        $password,
+                        $password_two){
+        if(SecurityManager::checkDataNewUser(   $pseudo,
+                                                $birthday,
+                                                $email,
+                                                $password,
+                                                $password_two)){
+            $password       = SecurityManager::criptedPassword($password);
+            $secret         = SecurityManager::setSecret($email);
+            $role           = 'Customer';
+            $usersManager   = new UsersManager( $pseudo,
+                                                $first_name,
+                                                $last_name,
+                                                $birthday,
+                                                $email,
+                                                $password,
+                                                $secret,
+                                                $role);
+            $result         = $usersManager->addNewUser();
+            if($result){
+                $usersManager->connect();
+                header('location: index.php?page=connection&success=1');
+            }else{
+                header('location: index.php?page=club&error=1&message=Impossible de s\'inscrire pour l\'instant.');
                 exit();
             }
         }
     }
-    function info(){
-        require('view/infoView.php');
-    }
-    function recrut(){
-        require('view/recrutView.php');
-    }
+    function info(){require('view/infoView.php');}
+    function recrut(){require('view/recrutView.php');}
