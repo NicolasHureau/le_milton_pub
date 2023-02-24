@@ -57,7 +57,12 @@
                                             $user['secret'],
                                             $user['role']);
         $usersManager->connect();
-        header('location: index.php?page=connection&success=1');
+        header('location: index.php?page=connection');
+    }
+    function deconnect(){
+        session_destroy();
+        session_unset();
+        header('location: index.php?page=connection');
     }
     function club(){require('view/clubView.php');}
     function addNewUser($pseudo,

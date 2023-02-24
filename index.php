@@ -5,7 +5,7 @@
         if(isset($_GET['page'])){
             if($_GET['page']=='home'){
                 if( !empty($_POST['title']) && !empty($_POST['content']) && isset($_FILES['image'])){
-                    if( $_FILES['image']['error']===0 && $_FILES['image']['size']<=3000000){
+                    if( $_FILES['image']['error'] === 0 && $_FILES['image']['size'] <= 3000000){
                         $informationsImage = pathinfo($_FILES['image']['name']);
                         $extensionImage    = $informationsImage['extension'];
                         $extensionsArray   = ['png','gif','jpg','jpeg'];
@@ -26,10 +26,12 @@
             else if($_GET['page']=='whiskies'){whiskies();}
             else if($_GET['page']=='rhums'){rhums();}
             else if($_GET['page']=='connection'){
-                if( !empty($_POST['email']) && !empty($_POST['password'])){
+                if(!empty($_POST['email']) && !empty($_POST['password'])){
                     $email      =htmlspecialchars($_POST['email']);
                     $password   =htmlspecialchars($_POST['password']);
                     connect($email,$password);
+                }else if(isset($_GET['logout']) && $_GET['logout'] == 1){
+                    deconnect();
                 }else{connection();}
             }
             else if($_GET['page']=='club'){
