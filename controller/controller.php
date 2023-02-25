@@ -23,17 +23,17 @@
     function restaurant(){
         // $restaurantManager = new RestaurantManager();
         // $request = $restaurantManager->getDishes();
-        require('view/menuView.php');
+        require('view/restaurantView.php');
     }
     function drinks(){
         // $drinksManager = new DrinksManager();
         // $request = $drinksManager->getDrinks();
-        require('view/menuView.php');
+        require('view/restaurantView.php');
     }
     function wines(){
         // $winesManager = new WinesManager();
         // $request = $winesManager->getWines();
-        require('view/menuView.php');
+        require('view/restaurantView.php');
     }
     function whiskies(){
         // $whiskiesManager = new WhiskiesManager();
@@ -62,7 +62,7 @@
     function deconnect(){
         session_destroy();
         session_unset();
-        header('location: index.php?page=connection');
+        header('location: index.php?page=connection&logedout');
     }
     function club(){require('view/clubView.php');}
     function addNewUser($pseudo,

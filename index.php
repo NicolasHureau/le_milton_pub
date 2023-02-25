@@ -30,7 +30,7 @@
                     $email      =htmlspecialchars($_POST['email']);
                     $password   =htmlspecialchars($_POST['password']);
                     connect($email,$password);
-                }else if(isset($_GET['logout']) && $_GET['logout'] == 1){
+                }else if(isset($_GET['logout'])){
                     deconnect();
                 }else{connection();}
             }

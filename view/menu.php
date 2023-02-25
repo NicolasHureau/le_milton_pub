@@ -39,6 +39,11 @@
                         <ul class="dropdown-menu" aria-labelledby="sousMenuClub">
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='connection')){echo'active';} ?>" href="index.php?page=connection">Déjà membre?</a></li>
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='club')){echo'active';} ?>" href="index.php?page=club">Rejoindre le Milton-Club</a></li>
+                        <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1){ ?>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><h1 class="dropdown-item"><?= $_SESSION['pseudo'] ?></h1></li>
+                            <li><a class="dropdown-item" href="index.php?page=connection&logout">Se déconnecter</a></li>
+                        <?php } ?>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
