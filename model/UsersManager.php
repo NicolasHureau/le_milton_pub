@@ -1,6 +1,7 @@
 <?php
     require_once('DbManager.php');
     class UsersManager extends DbManager {
+// Variables utilisateur
         private $_pseudo;
         private $_first_name;
         private $_last_name;
@@ -9,7 +10,7 @@
         private $_password;
         private $_secret;
         private $_role;
-
+// Constructeur
         public function __construct(
             $user_pseudo,
             $user_first,
@@ -29,7 +30,7 @@
             $this->setSecret($user_secret);
             $this->setRole($user_role);
         }
-
+// Getters
         protected function getPseudo()      {return $this->_pseudo;}
         protected function getFirstName()   {return $this->_first_name;}
         protected function getLastName()    {return $this->_last_name;}
@@ -38,7 +39,7 @@
         protected function getpassword()    {return $this->_password;}
         protected function getSecret()      {return $this->_secret;}
         protected function getRole()        {return $this->_role;}
-
+// Setters
         protected function setPseudo($user_pseudo)  {$this->_pseudo     = $user_pseudo;}
         protected function setFirstName($user_first){$this->_first_name = $user_first;}
         protected function setLastName($user_last)  {$this->_last_name  = $user_last;}
@@ -47,7 +48,7 @@
         protected function setPassword($user_pass)  {$this->_password   = $user_pass;}
         protected function setSecret($user_secret)  {$this->_secret     = $user_secret;}
         protected function setRole($user_role)      {$this->_role       = $user_role;}
-
+// Ajout d'utilisateur dans la BDD
         public function addNewUser(){
             $db = $this->connection();
             $requestNewUser = $db->prepare('INSERT INTO users(
@@ -71,6 +72,7 @@
                 $this->getRole()
             ]);
         }
+// Connection d'utilisateur
         public function Connect(){
             $_SESSION['connect']=1;
             $_SESSION['pseudo'] =$this->getPseudo();

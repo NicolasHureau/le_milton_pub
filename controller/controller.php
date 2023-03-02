@@ -6,17 +6,36 @@
     function home(){
         $newsManager = new NewsManager();
         $requestCarousel = $newsManager->getCarouselNews();
+        require('view/home.php');
+    }
+    function homeAdmin(){
+        $newsManager = new NewsManager();
         $requestAdmin = $newsManager->getNews();
         require('view/home.php');
     }
-    function addNews($title,$content,$image){
+    function setUpImageNews($image){
         $newsManager = new NewsManager();
-        $result = $newsManager->setNews($title,$content,$image);
-        if($result === false){
-            throw new Exception("Impossible d'ajouter l'actualitée.");
+        $newsManager->setUpImageNews($image);
+    }
+    function majNews($id,$title,$content,$image,$active){
+        $newsManager = new NewsManager();
+        $resultMaj = $newsManager->majNews($id,$title,$content,$image,$active);
+        if($resultMaj){
+            header('location: index.php?page=home&success=1&message=L\'actualié à bien été mise à jour.');
+            exit(); 
+        }else{
+            header('location: index.php?page=home&error=1&message=Un problème est survenue.');
+            exit();
         }
-        else{
-            header('location: index.php?page=home');
+    }
+    function addNews($title,$content,$image,$active){
+        $newsManager = new NewsManager();
+        $resultNew = $newsManager->addNews($title,$content,$image,$active);
+        if($resultNew){
+            header('location: index.php?page=home&success=1&message=L\'actualié à bien été ajoutée.');
+            exit(); 
+        }else{
+            header('location: index.php?page=home&error=1&message=Un problème est survenue.');
             exit();
         }
     }

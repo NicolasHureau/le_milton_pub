@@ -13,7 +13,9 @@ body {
 }
 
 header, footer {
-  background-color: var(--primaryColor);
+  background-image: url(../assets/4902211.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
 h1, .navbar-brand {
