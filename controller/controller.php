@@ -13,9 +13,9 @@
         $requestAdmin = $newsManager->getNews();
         require('view/home.php');
     }
-    function setUpImageNews($image){
-        $newsManager = new NewsManager();
-        $newsManager->setUpImageNews($image);
+    function setUpImage($image,$type){
+        $image = SecurityManager::setUpImage($image,$type);
+        return $image;
     }
     function majNews($id,$title,$content,$image,$active){
         $newsManager = new NewsManager();
@@ -54,15 +54,81 @@
         // $request = $winesManager->getWines();
         require('view/restaurantView.php');
     }
-    function whiskies(){
-        // $whiskiesManager = new WhiskiesManager();
-        // $request = $whiskiesManager->getWhiskies();
+    function alcool($type){
+        $requestAlcool = AlcoolManager::getAlcool($type);
         require('view/alcoolView.php');
     }
-    function rhums(){
-        // $rhumsManager = new RhumsManager();
-        // $request = $rhumsManager->getRhums();
+    function alcoolAdmin($type){
+        $requestAlcool = AlcoolManager::getAlcoolAdmin($type);
         require('view/alcoolView.php');
+    }
+    function addNewAlcool(
+        $name,
+        $degree,
+        $type,
+        $category,
+        $origin,
+        $image,
+        $presentation,
+        $degustation,
+        $price2cl,
+        $price4cl,
+        $active){
+            $alcoolManager = new AlcoolManager(
+                $name,
+                $degree,
+                $type,
+                $category,
+                $origin,
+                $image,
+                $presentation,
+                $degustation,
+                $price2cl,
+                $price4cl,
+                $active);
+            $result = $alcoolManager->addNewAlcool();
+            if($result){
+                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le nouveau produit à été ajouté à la base de donnée.');
+                exit();
+            }else{
+                header('locaction: index.php?page=alcool&type='.$type.'&error=1&message=Un problème est survenue.');
+                exit();
+            }
+    }
+    function majAlcool(
+        $id,
+        $name,
+        $degree,
+        $type,
+        $category,
+        $origin,
+        $image,
+        $presentation,
+        $degustation,
+        $price2cl,
+        $price4cl,
+        $active){
+            $resultMaj = AlcoolManager::majAlcool(
+                $id,
+                $name,
+                $degree,
+                $type,
+                $category,
+                $origin,
+                $image,
+                $presentation,
+                $degustation,
+                $price2cl,
+                $price4cl,
+                $active);
+            if($resultMaj){
+                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le produit à été modifier.');
+                exit();
+            }else{
+                header('locaction: index.php?page=alcool&type='.$type.'&error=1&message=Un problème est survenue.');
+                exit();
+            }
+        
     }
     function connection(){require('view/connectionView.php');}
     function connect($email,$password){
@@ -77,11 +143,13 @@
                                             $user['role']);
         $usersManager->connect();
         header('location: index.php?page=connection');
+        exit();
     }
     function deconnect(){
         session_destroy();
         session_unset();
         header('location: index.php?page=connection&logedout');
+        exit();
     }
     function club(){require('view/clubView.php');}
     function addNewUser($pseudo,
@@ -111,11 +179,30 @@
             if($result){
                 $usersManager->connect();
                 header('location: index.php?page=connection&success=1');
+                exit();
             }else{
                 header('location: index.php?page=club&error=1&message=Impossible de s\'inscrire pour l\'instant.');
                 exit();
             }
         }
     }
+    function clubAdmin(){
+        $adminManager = new AdminManager();
+        $requestAdmin = $adminManager->getUsers();
+        require('view/clubView.php');
+    }
     function info(){require('view/infoView.php');}
     function recrut(){require('view/recrutView.php');}
+    function sendEmailCandidacy($first_name,
+                                $last_name,
+                                $birthday,
+                                $secu,
+                                $adress,
+                                $zip_code,
+                                $city,
+                                $email,
+                                $phone,
+                                $job,
+                                $motivation){
+                                    // a faire...
+                                };

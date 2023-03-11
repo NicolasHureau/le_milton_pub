@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="public/design/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
-
+<body <?php if(empty($_GET) || $_GET['page'] == 'home' AND empty($_SESSION) || $_SESSION['role'] !== 'Admin'){ echo'style="height: 100vh;"';}else{ echo'style="min-height: 100vh;"';} ?> >
     <header class="sticky-top shadow px-4">
         <h1 class="text-center text-white m-0 d-none d-sm-block">Le <span class="display-1">Milton</span> Pub</h1>
         <nav class="navbar navbar-expand-sm navbar-dark">
@@ -29,9 +28,12 @@
                         <a class="nav-link dropdown-toggle" href="#" id="sousMenuBar" role="button" data-bs-toggle="dropdown" aria-expanded="false">Le Bar</a>
                         <ul class="dropdown-menu" aria-labelledby="sousMenuBar">
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='drinks')){echo'active';} ?>" href="index.php?page=drinks">Carte des boissons</a></li>
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='wines')){echo'active';} ?>" href="index.php?page=wines">Cave à vins</a></li>
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='whikies')){echo'active';} ?>" href="index.php?page=whiskies">Encyclopédie des Whiskies</a></li>
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='rhums')){echo'active';} ?>" href="index.php?page=rhums">Route des Rhums</a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='wines')){echo'active';} ?>" href="index.php?page=wine">Cave à vins</a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='whisky')){echo'active';} ?>" href="index.php?page=alcool&type=whisky">Encyclopédie des <strong>Whiskys</strong></a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='rhum')){echo'active';} ?>" href="index.php?page=alcool&type=rhum">Route des <strong>Rhums</strong></a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='tequila')){echo'active';} ?>" href="index.php?page=alcool&type=tequila">Hacienda des <strong>Téquilas</strong></a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='vodka')){echo'active';} ?>" href="index.php?page=alcool&type=vodka">Toundra des <strong>Vodkas</strong></a></li>                       
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='gin')){echo'active';} ?>" href="index.php?page=alcool&type=gin"><strong>Gins</strong></a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">

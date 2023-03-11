@@ -1,7 +1,7 @@
 <?php
     ob_start();
 ?>
-    <section class="container mt-3 d-flex flex-column align-items-center justify-content-center" style="height:100vh">
+    <section class="container mt-3 d-flex flex-column align-items-center justify-content-center flex-grow-1">
     <?php
         if(isset($_GET['error'])){
             if(isset($_GET['message'])){

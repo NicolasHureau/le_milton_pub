@@ -14,7 +14,7 @@
                 exit();
             }else{return true;}
         }
-        private static function emailSyntax($email){
+        public static function emailSyntax($email){
             if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
                 header('location: index.php?page=club&error=1&message=Cette adresse email est invalide.');
                 exit();
@@ -41,6 +41,25 @@
                     exit();
                 }else{return true;}
             }
+        }
+
+        public static function setUpImage($image,$type){
+            if($image['size'] <= 3000000){
+                $informationsImage = pathinfo($image['name']);
+                $extensionImage    = $informationsImage['extension'];
+                $extensionsArray   = ['png','gif','jpg','jpeg'];
+                if(in_array($extensionImage,$extensionsArray)){
+                    $newImageName = time().rand().'.'.$extensionImage;
+                    move_uploaded_file($image['tmp_name'], 'public/assets/uploads/'.$type.'/'.$newImageName);
+                }else{
+                    header('location: index.php?page=home&error=1&message=Ne sont acceptée que les images \'png\', \'gif\', \'jpg\', \'jpeg\', choisissez-en une autre ou convertissez-la.');
+                    exit();
+                }
+                return 'public/assets/uploads/'.$type.'/'.$newImageName;
+            }else{
+                header('location: index.php?page=home&error=1&message=Un problème est survenue avec l\'image.');
+                exit();
+            }     
         }
 
         public static function criptedPassword($password){

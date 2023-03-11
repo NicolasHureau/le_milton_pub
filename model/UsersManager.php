@@ -59,8 +59,8 @@
                 email,
                 password,
                 secret,
-                role
-            ) VALUES(?,?,?,?,?,?,?,?)');
+                role)
+                VALUES(?,?,?,?,?,?,?,?)');
             $requestNewUser->execute([
                 $this->getPseudo(),
                 $this->getFirstName(),

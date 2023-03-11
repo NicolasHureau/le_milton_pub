@@ -31,7 +31,7 @@
         }
         public function majNews($id,$title,$content,$image,$active){
             $db = $this->connection();
-            if($image == 0){
+            if(empty($image)){
                 $requestMaj = $db->prepare('UPDATE news SET title=:title,content=:content,active=:active WHERE ID=:id');
                 $resultMaj  = $requestMaj->execute(['id'=>$id,'title'=>$title,'content'=>$content,'active'=>$active]);
             }else{
@@ -43,7 +43,7 @@
         public function addNews($title,$content,$image,$active){
             $db         = $this->connection();
             $request    = $db->prepare('INSERT INTO news(title,content,image,active) VALUES (?,?,?,?)');
-            $resultNew     = $request->execute([$title,$content,$image,$active]);
+            $resultNew  = $request->execute([$title,$content,$image,$active]);
             return $resultNew;
         }
     }
