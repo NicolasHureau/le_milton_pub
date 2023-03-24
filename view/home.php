@@ -24,11 +24,11 @@
                         <img src="<?= $listNews['image'] ?>" class="card-img overflow-hidden object-fit-cover" alt="Image pour <?= $listNews['title'] ?>">
                         <div class="card-footer d-flex justify-content-between align-items-center">
                             <?php if($listNews['active'] == 1){echo '<span class="text-success">Affiché</span>';}else{echo '<span class="text-danger">Caché</span>';} ?>
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifier<?= $listNews['id'] ?>">Modifier</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update<?= $listNews['id'] ?>">Modifier</button>
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="modifier<?= $listNews['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $listNews['title'] ?>" aria-hidden="true">
+                <div class="modal fade" id="update<?= $listNews['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $listNews['title'] ?>" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
                         <div class="modal-content bg-dark text-light">
                             <form method="post" action="index.php?page=home" enctype="multipart/form-data">
@@ -49,7 +49,7 @@
                                     </div>
                                     <div>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                        <button type="submit" name="maj" value="<?= $listNews['id'] ?>" class="btn btn-success">Valider</button>
+                                        <button type="submit" name="update" value="<?= $listNews['id'] ?>" class="btn btn-success">Valider</button>
                                     </div>
                                 </div>
                             </form>

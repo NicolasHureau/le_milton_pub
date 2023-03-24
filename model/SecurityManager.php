@@ -43,7 +43,7 @@
             }
         }
 
-        public static function setUpImage($image,$type){
+        public static function setupImage($image,$type){
             if($image['size'] <= 3000000){
                 $informationsImage = pathinfo($image['name']);
                 $extensionImage    = $informationsImage['extension'];

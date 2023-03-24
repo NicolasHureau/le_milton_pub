@@ -13,17 +13,18 @@
         $requestAdmin = $newsManager->getNews();
         require('view/home.php');
     }
-    function setUpImage($image,$type){
-        $image = SecurityManager::setUpImage($image,$type);
+    function setupImage($image,$type){
+        $image = SecurityManager::setupImage($image,$type);
         return $image;
     }
-    function majNews($id,$title,$content,$image,$active){
+    function updateNews($id,$title,$content,$image,$active){
         $newsManager = new NewsManager();
-        $resultMaj = $newsManager->majNews($id,$title,$content,$image,$active);
-        if($resultMaj){
+        $resultUpdate = $newsManager->updateNews($id,$title,$content,$image,$active);
+        if($resultUpdate){
             header('location: index.php?page=home&success=1&message=L\'actualié à bien été mise à jour.');
             exit(); 
-        }else{
+        }
+        else{
             header('location: index.php?page=home&error=1&message=Un problème est survenue.');
             exit();
         }
@@ -34,7 +35,8 @@
         if($resultNew){
             header('location: index.php?page=home&success=1&message=L\'actualié à bien été ajoutée.');
             exit(); 
-        }else{
+        }
+        else{
             header('location: index.php?page=home&error=1&message=Un problème est survenue.');
             exit();
         }
@@ -88,14 +90,16 @@
                 $active);
             $result = $alcoolManager->addNewAlcool();
             if($result){
-                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le nouveau produit à été ajouté à la base de donnée.');
+                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le produit à été ajouté.');
                 exit();
-            }else{
+            }
+            else{
                 header('locaction: index.php?page=alcool&type='.$type.'&error=1&message=Un problème est survenue.');
                 exit();
             }
+
     }
-    function majAlcool(
+    function updateAlcool(
         $id,
         $name,
         $degree,
@@ -108,7 +112,7 @@
         $price2cl,
         $price4cl,
         $active){
-            $resultMaj = AlcoolManager::majAlcool(
+            $resultUpdate = AlcoolManager::updateAlcool(
                 $id,
                 $name,
                 $degree,
@@ -121,26 +125,27 @@
                 $price2cl,
                 $price4cl,
                 $active);
-            if($resultMaj){
-                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le produit à été modifier.');
+            if($resultUpdate){
+                header('location: index.php?page=alcool&type='.$type.'&success=1&message=Le produit a été modifier.');
                 exit();
-            }else{
+            }
+            else{
                 header('locaction: index.php?page=alcool&type='.$type.'&error=1&message=Un problème est survenue.');
                 exit();
             }
-        
     }
     function connection(){require('view/connectionView.php');}
     function connect($email,$password){
         $user = SecurityManager::checkDataConnect($email,$password);
-        $usersManager = new UsersManager(   $user['pseudo'],
-                                            $user['first_name'],
-                                            $user['last_name'],
-                                            $user['birthday'],
-                                            $user['email'],
-                                            $user['password'],
-                                            $user['secret'],
-                                            $user['role']);
+        $usersManager = new UsersManager(
+            $user['pseudo'],
+            $user['first_name'],
+            $user['last_name'],
+            $user['birthday'],
+            $user['email'],
+            $user['password'],
+            $user['secret'],
+            $user['role']);
         $usersManager->connect();
         header('location: index.php?page=connection');
         exit();
@@ -152,39 +157,70 @@
         exit();
     }
     function club(){require('view/clubView.php');}
-    function addNewUser($pseudo,
+    function addNewUser(
+        $pseudo,
+        $first_name,
+        $last_name,
+        $birthday,
+        $email,
+        $password,
+        $password_two){
+            if(SecurityManager::checkDataNewUser(
+                $pseudo,
+                $birthday,
+                $email,
+                $password,
+                $password_two)){
+                    $password       = SecurityManager::criptedPassword($password);
+                    $secret         = SecurityManager::setSecret($email);
+                    $role           = 'Customer';
+                    $usersManager   = new UsersManager( 
+                        $pseudo,
                         $first_name,
                         $last_name,
                         $birthday,
                         $email,
                         $password,
-                        $password_two){
-        if(SecurityManager::checkDataNewUser(   $pseudo,
-                                                $birthday,
-                                                $email,
-                                                $password,
-                                                $password_two)){
-            $password       = SecurityManager::criptedPassword($password);
-            $secret         = SecurityManager::setSecret($email);
-            $role           = 'Customer';
-            $usersManager   = new UsersManager( $pseudo,
-                                                $first_name,
-                                                $last_name,
-                                                $birthday,
-                                                $email,
-                                                $password,
-                                                $secret,
-                                                $role);
-            $result         = $usersManager->addNewUser();
-            if($result){
-                $usersManager->connect();
-                header('location: index.php?page=connection&success=1');
-                exit();
-            }else{
-                header('location: index.php?page=club&error=1&message=Impossible de s\'inscrire pour l\'instant.');
+                        $secret,
+                        $role);
+                    $result         = $usersManager->addNewUser();
+                    if($result){
+                        $usersManager->connect();
+                        header('location: index.php?page=connection&success=1');
+                        exit();
+                    }
+                    else{
+                        header('location: index.php?page=club&error=1&message=Impossible de s\'inscrire pour l\'instant.');
+                        exit();
+                    }
+            }
+    }
+    function updateUser(
+        $id,
+        $pseudo,
+        $role,
+        $first_name,
+        $last_name,
+        $birthday,
+        $email,
+        $ban){
+            $resultUpdate = UsersManager::updateUser(
+                $id,
+                $pseudo,
+                $role,
+                $first_name,
+                $last_name,
+                $birthday,
+                $email,
+                $ban);
+            if($resultUpdate){
+                header('location: index.php?page=club&success=1&message=La fiche a été modifier.');
                 exit();
             }
-        }
+            else{
+                header('locaction: index.php?page=club&error=1&message=Un problème est survenue.');
+                exit();
+            }
     }
     function clubAdmin(){
         $adminManager = new AdminManager();
@@ -193,16 +229,18 @@
     }
     function info(){require('view/infoView.php');}
     function recrut(){require('view/recrutView.php');}
-    function sendEmailCandidacy($first_name,
-                                $last_name,
-                                $birthday,
-                                $secu,
-                                $adress,
-                                $zip_code,
-                                $city,
-                                $email,
-                                $phone,
-                                $job,
-                                $motivation){
-                                    // a faire...
+    function sendEmailCandidacy(
+        $first_name,
+        $last_name,
+        $birthday,
+        $secu,
+        $adress,
+        $zip_code,
+        $city,
+        $email,
+        $phone,
+        $job,
+        $motivation){
+
+
                                 };

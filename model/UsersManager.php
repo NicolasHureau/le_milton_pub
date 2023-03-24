@@ -61,7 +61,7 @@
                 secret,
                 role)
                 VALUES(?,?,?,?,?,?,?,?)');
-            $requestNewUser->execute([
+            $result = $requestNewUser->execute([
                 $this->getPseudo(),
                 $this->getFirstName(),
                 $this->getLastName(),
@@ -71,6 +71,7 @@
                 $this->getSecret(),
                 $this->getRole()
             ]);
+            return $result;
         }
 // Connection d'utilisateur
         public function Connect(){
@@ -78,5 +79,36 @@
             $_SESSION['pseudo'] =$this->getPseudo();
             $_SESSION['email']  =$this->getEmail();
             $_SESSION['role']   =$this->getRole();
+        }
+
+        public static function updateUser(
+            $id,
+            $pseudo,
+            $role,
+            $first_name,
+            $last_name,
+            $birthday,
+            $email,
+            $ban){
+                $db = self::connection();
+                $requestUpdate = $db->prepare('UPDATE users SET
+                    pseudo      =:pseudo,
+                    role        =:role,
+                    first_name  =:first_name,
+                    last_name   =:last_name,
+                    birthday    =:birthday,
+                    email       =:email,
+                    ban         =:ban
+                    WHERE id    =:id');
+                $resultUpdate = $requestUpdate->execute([
+                    'id'        =>$id,
+                    'pseudo'    =>$pseudo,
+                    'role'      =>$role,
+                    'first_name'=>$first_name,
+                    'last_name' =>$last_name,
+                    'birthday'  =>$birthday,
+                    'email'     =>$email,
+                    'ban'       =>$ban]);
+                return $resultUpdate;
         }
     }

@@ -1,11 +1,16 @@
 <?php
     ob_start();
 ?>
-    <section class="container d-flex flex-column align-items-center justify-content-center">
+    <section class="container d-flex flex-column align-items-center justify-content-center flex-grow-1">
         <p class="text-center my-3">
-            Le Milon Pub recrute toute l'année...
+            Nous recrutons toute l'année!<br><br>
+            Venez rejoindre une équipe dynamique pour travailler dans la bonne humeur.<br><br>
+            Posez votre candidature et nous vous répondrons au plus vite.
         </p>
-        <form method="post" action="index.php?page=recrut">
+        <div class="my-5">
+            LOGO
+        </div>
+        <form method="post" action="index.php?page=recrut" enctype="multipart/form-data">
             <div class="row justify-content-center g-3 mb-2">
                 <div class="col-auto">
                     <input type="text" name="first_name" class="form-control" placeholder="Prénom" required>
@@ -16,25 +21,17 @@
             </div>
             <div class="row text-end align-items-center g-3 mb-2">
                 <div class="col">
-                    <label for="birthday">Votre date de naissance :</label>
+                    <label for="birthday">Date de naissance :</label>
                 </div>
                 <div class="col">
                     <input type="date" name="birthday" class="form-control" id="birthday" required>
                 </div>
             </div>
-            <div class="row text-end align-items-center g-3 mb-3">
-                <div class="col">
-                    <label for="secu">Numéro de Sécurité Social :</label>
-                </div>
-                <div class="col">
-                    <input type="text" name="secu" class="form-control" id="secu" min="0" required>
-                </div>
-            </div>
             <p><u><strong>Contact :</strong></u></p>
-            <div class="row">
-                <input type="text" name="adress" class="form-control mb-2" placeholder="Adresse" required>
+            <div>
+                <input type="text" name="adress" class="form-control mb-3" placeholder="Adresse" required>
             </div>
-            <div class="row justify-content-center g-3 mb-2">
+            <div class="row justify-content-center g-3 mb-3">
                 <div class="col-auto">
                     <input type="text" name="zip_code" class="form-control" placeholder="Code postal" required>
                 </div>
@@ -51,18 +48,26 @@
                 </div>
             </div>
             <p><u><strong>Vos aspirations au sein de l'établissement :</strong></u></p>
-            <div class="row mb-2">
+            <div class="mb-3">
                 <select name="job" class="form-select" aria-label="Salle / Cuisine">
                     <option selected>Salle / Cuisine</option>
-                    <option value="1">Salle (service)</option>
-                    <option value="2">Salle (bar)</option>
-                    <option value="3">Cuisine (Chef)</option>
-                    <option value="4">Cuisine (Cuisinnier)</option>
-                    <option value="5">Cuisine (Commis/Plongeur)</option>
+                    <optgroup label="Salle">
+                        <option value="serveur">Serveuse/Serveur</option>
+                        <option value="barman">Barmaid/Barman</option>
+                    </optgroup>
+                    <optgroup label="cuisine">
+                        <option value="chef">Chef(fe)</option>
+                        <option value="cuisinier">Cuisinnier(e)</option>
+                        <option value="commis_plongeur">Commis-Plongeur</option>
+                    </optgroup>
                 </select>
             </div>
-            <div class="row mb-3">
-                <textarea name="motivation" id="motivation" cols="10" rows="5" placeholder="Vos motivations..." required></textarea>
+            <div class="mb-3">
+                <textarea name="motivation" id="motivation" rows="5" class="w-100" placeholder="Présentez-vous"></textarea>
+            </div>
+            <div class="text-center my-3">
+                <label for="cv" class="form-label">Joindre un C.V. (jpeg ou pdf)</label>
+                <input type="file" class="form-control mb-2" name="cv" id="cv">
             </div>
             <div class="text-center mb-3">
                 <button type="submit" class="btn btn-success px-5">Envoyer ma candidature</button>

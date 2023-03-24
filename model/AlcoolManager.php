@@ -78,7 +78,7 @@
                 price4cl,
                 active)
                 VALUES(?,?,?,?,?,?,?,?,?,?,?)');
-            $requestNewAlcool->execute([
+            $result = $requestNewAlcool->execute([
                 $this->getName(),
                 $this->getDegree(),
                 $this->getType(),
@@ -91,6 +91,7 @@
                 $this->getPrice4cl(),
                 $this->getActive()
             ]);
+            return $result;
         }
 
         public static function getAlcool($type){
@@ -106,7 +107,7 @@
             return $requestAlcool;
         }
 
-        public static function majAlcool(
+        public static function updateAlcool(
             $id,
             $name,
             $degree,
@@ -121,7 +122,7 @@
             $active){
                 $db = self::connection();
                 if(empty($image)){
-                    $requestMaj = $db->prepare('UPDATE alcool SET 
+                    $requestUpdate = $db->prepare('UPDATE alcool SET 
                         name            =:name,
                         degree          =:degree,
                         type            =:type,
@@ -133,7 +134,7 @@
                         price4cl        =:price4cl,
                         active          =:active
                         WHERE id        =:id');
-                    $resultMaj = $requestMaj->execute([
+                    $resultUpdate = $requestUpdate->execute([
                         'id'            =>$id,
                         'name'          =>$name,
                         'degree'        =>$degree,
@@ -146,7 +147,7 @@
                         'price4cl'      =>$price4cl,
                         'active'        =>$active]);
                 }else{
-                    $requestMaj = $db->prepare('UPDATE alcool SET 
+                    $requestUpdate = $db->prepare('UPDATE alcool SET 
                         name            =:name,
                         degree          =:degree,
                         type            =:type,
@@ -159,7 +160,7 @@
                         price4cl        =:price4cl,
                         active          =:active
                         WHERE id        =:id');
-                    $resultMaj = $requestMaj->execute([
+                    $resultUpdate = $requestUpdate->execute([
                         'id'            =>$id,
                         'name'          =>$name,
                         'degree'        =>$degree,
@@ -173,6 +174,6 @@
                         'price4cl'      =>$price4cl,
                         'active'        =>$active]);
                 }
-                return $resultMaj;                                
+                return $resultUpdate;                                
         }
     }

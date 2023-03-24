@@ -4,35 +4,106 @@
 ?>
 <!-- Affichage liste des utilisateurs, administrator only -->
     <section class="container d-flex flex-column flex-grow-1">
-        <table>
-            <thead>
-                <h3 class="text-center"><u><strong>Liste des inscrits</strong></u></h3>
-            </thead>
-            <tbody class="text-center">
-                <?php while($user = $requestAdmin->fetch()){ ?>
-                    <tr>
-                        <td rowspan="2"><?= $user['id'] ?></td>
-                        <th><?= $user['pseudo'] ?></th>
-                        <td>Inscrit(e) le : <?= AdminManager::seeDateFr($user['creation_date']) ?></td>
-                        <td><?= $user['role'] ?></td>
-                        <td rowspan="2"><button type="button">Modifier</button></td>
-                    </tr>
-                    <tr>
-                        <td><?= $user['first_name'].' '.$user['last_name'] ?></td>
-                        <td> Né(e) le : <?= AdminManager::seeDateFr($user['birthday']); ?></td>
-                        <td><?= $user['email'] ?></td>
-                    </tr>
-                        <!-- accordion? + modal de modif -->
-                <?php } ?>
-            </tbody>
-        </table>
+        <h3 class="text-center my-3"><u><strong>Liste des inscrits</strong></u></h3>
+        <?php while($user = $requestAdmin->fetch()){ ?>
+            <div class="card my-1">
+                <div class="card-header d-flex justify-content-between">
+                    <span><?= $user['id'] ?></span>
+                    <span><b><?= $user['pseudo'] ?></b></span>
+                    <span><?php if($user['role'] == 'admin'){echo 'Manager';}
+                                if($user['role'] == 'staff'){echo 'Staff';}
+                                if($user['role'] == 'customer'){echo 'Client';} ?></span>
+                                <!-- Vip + colorations -->
+                </div>
+                <div class="card-body">
+                    <div>
+                        <span><?= $user['first_name'] ?></span>
+                        <span><?= $user['last_name'] ?></span>
+                    </div>
+                    <div>
+                        Né(e) le : <?= AdminManager::seeDateFr($user['birthday']); ?>
+                    </div>
+                    <div>
+                        Email : <?= $user['email'] ?>
+                    </div>
+                    <div>
+                        Inscrit(e) le : <?= AdminManager::seeDateFr($user['creation_date']) ?>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <?php if($user['ban'] == 1){echo '<span class="text-danger">Ban</span>';}else{echo '<span class="text-success">Ok</span>';} ?>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update<?= $user['id'] ?>">Modifier</button>
+                </div>
+            </div>
+            <div class="modal fade" id="update<?= $user['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $user['pseudo'] ?>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
+                    <div class="modal-content bg-dark text-light">
+                        <form method="post" action="index.php?page=club">
+                            <div class="modal-header">
+                                <h2 class="modal-title fs-5"><?= $user['pseudo'] ?> (id : <?= $user['id'] ?>)</h2>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row justify-content-center g-3">
+                                    <div class="col">
+                                        <input type="text" name="pseudo" class="form-control" value="<?= $user['pseudo'] ?>">
+                                    </div>
+                                    <div class="col">
+                                        <select name="role" id="role" class="form-select">
+                                            <option value="admin" <?php if($user['role'] == 'admin'){echo 'selected';} ?>>Manager</option>
+                                            <option value="staff" <?php if($user['role'] == 'staff'){echo 'selected';} ?>>Staff</option>
+                                            <option value="customer" <?php if($user['role'] == 'customer'){echo 'selected';} ?>>Client</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-1">
+                                    <div class="col">
+                                        <input type="text" name="first_name" class="form-control" value="<?= $user['first_name'] ?>">
+                                    </div>
+                                    <div class="col">
+                                        <input type="text" name="last_name" class="form-control" value="<?= $user['last_name'] ?>">
+                                    </div>
+                                </div>
+                                <div class="row text-end align-items-center g-3 mt-1">
+                                    <div class="col">
+                                        <label for="birthday">Date de naissance :</label>
+                                    </div>
+                                    <div class="col">
+                                        <input type="date" name="birthday" class="form-control" id="birthday" value="<?= $user['birthday'] ?>">
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-3">
+                                    <div class="col-auto">
+                                        <input type="email" name="email" class="form-control text-center" value="<?= $user['email'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="active" name="ban" <?php if($user['ban'] == 1){echo 'checked';} ?>>
+                                    <label class="form-check-label text-danger" for="ban">Bannir</label>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <button type="submit" name="update" value="<?= $user['id'] ?>" class="btn btn-success">Modifier</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     </section>
 <?php }else{ ?>
 <!-- Création de compte -->
     <section class="container d-flex flex-column align-items-center justify-content-center flex-grow-1">
-        <p class=" my-3">
-            Adhérer au Milton Club vous permettra...
+        <p class="text-center my-3">
+            Adhérer au Milton Club vous permettra de laisser des commentaires sur les spiritueux que vous avez préféré pour faire part de vos dégustations aux autres et vous y référer lors de prochaines dégustations.<br><br>
+            Et bientôt d'autres fonctionnalitées...
         </p>
+        <div class="my-5">
+            LOGO
+        </div>
         <?php
             if(isset($_GET['error'])){
                 if(isset($_GET['message'])){
@@ -60,7 +131,7 @@
                     </div>
                     <div class="row text-end align-items-center g-3 mt-1">
                         <div class="col">
-                            <label for="birthday">Votre date de naissance :</label>
+                            <label for="birthday">Date de naissance :</label>
                         </div>
                         <div class="col">
                             <input type="date" name="birthday" class="form-control" id="birthday"  required>

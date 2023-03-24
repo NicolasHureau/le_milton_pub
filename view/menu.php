@@ -33,18 +33,20 @@
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='rhum')){echo'active';} ?>" href="index.php?page=alcool&type=rhum">Route des <strong>Rhums</strong></a></li>
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='tequila')){echo'active';} ?>" href="index.php?page=alcool&type=tequila">Hacienda des <strong>Téquilas</strong></a></li>
                             <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='vodka')){echo'active';} ?>" href="index.php?page=alcool&type=vodka">Toundra des <strong>Vodkas</strong></a></li>                       
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='gin')){echo'active';} ?>" href="index.php?page=alcool&type=gin"><strong>Gins</strong></a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='alcool')&&($_GET['type']=='gin')){echo'active';} ?>" href="index.php?page=alcool&type=gin">Officine des <strong>Gins</strong></a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="sousMenuClub" role="button" data-bs-toggle="dropdown" aria-expanded="false">Le Milton-Club</a>
                         <ul class="dropdown-menu" aria-labelledby="sousMenuClub">
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='connection')){echo'active';} ?>" href="index.php?page=connection">Déjà membre?</a></li>
-                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='club')){echo'active';} ?>" href="index.php?page=club">Rejoindre le Milton-Club</a></li>
                         <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1){ ?>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='club')){echo'active';} ?>" href="index.php?page=club">Milton-Club</a></li>                       
                             <li><hr class="dropdown-divider"></li>
                             <li><h1 class="dropdown-item"><?= $_SESSION['pseudo'] ?></h1></li>
                             <li><a class="dropdown-item" href="index.php?page=connection&logout">Se déconnecter</a></li>
+                        <?php }else{ ?>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='connection')){echo'active';} ?>" href="index.php?page=connection">Déjà membre?</a></li>
+                            <li><a class="dropdown-item <?php if(isset($_GET['page'])&&($_GET['page']=='club')){echo'active';} ?>" href="index.php?page=club">Rejoindre le Milton-Club</a></li>
                         <?php } ?>
                         </ul>
                     </li>

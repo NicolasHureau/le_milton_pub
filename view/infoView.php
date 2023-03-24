@@ -1,7 +1,7 @@
 <?php
     ob_start();
 ?>
-    <section>
+    <section class="container flex-grow-1">
 
     </section>
 <?php

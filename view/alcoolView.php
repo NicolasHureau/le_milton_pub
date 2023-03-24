@@ -10,7 +10,7 @@
             <div class="modal fade" id="newAlcool" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewAlcool" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
                     <div class="modal-content bg-dark text-light">
-                        <form method="post" action="index.php?page=alcool&success=1&message=Le nouveau tord-boyaux à été envoyé à la base de donnée." enctype="multipart/form-data">
+                        <form method="post" action="index.php?page=alcool" enctype="multipart/form-data">
                             <div class="modal-header">
                                 <h2 class="modal-title fs-5" id="addNewAlcool">Ajouter un alcool</h2>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -31,13 +31,13 @@
                                     <div class="col">
                                         <input class="form-control" list="typeOpt" name="type" placeholder="Type d'alcool" required>
                                             <datalist id="typeOpt">
-                                                <option value="Whisky">
-                                                <option value="Rhum">
-                                                <option value="Gin">
-                                                <option value="Vodka">
-                                                <option value="Téquila">
-                                                <option value="Liqueur">
-                                                <option value="Digestif">
+                                                <option value="whisky">
+                                                <option value="rhum">
+                                                <option value="gin">
+                                                <option value="vodka">
+                                                <option value="tequila">
+                                                <option value="liqueur">
+                                                <option value="digestif">
                                             </datalist>
                                     </div>
                                     <div class="col">
@@ -75,7 +75,7 @@
                                         <label for="price2cl" class="form-label m-0">prix 2cl. :</label>
                                     </div>
                                     <div class="input-group col">
-                                        <input type="text" class="form-control text-center p-1" name="price2cl" id="price2cl" required>
+                                        <input type="text" class="form-control text-center p-1" name="price2cl" id="price2cl">
                                         <span class="input-group-text">€</span>
                                     </div>
                                     <div class="col text-end">
@@ -108,10 +108,12 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="<?= $alcool['id'] ?>">
                     <button class="accordion-button collapsed p-1" type="button" data-bs-toggle="collapse" data-bs-target="#description<?= $alcool['id'] ?>" aria-expanded="true" aria-controls="description<?= $alcool['id'] ?>">
-                        <h5 class="text-truncate flex-grow-1 m-0"><?= $alcool['name'] ?></h5>
+                        <h5 class="text-truncate flex-grow-1 m-0 pb-1"><?= $alcool['name'] ?></h5>
                         <div class="d-flex flex-column flex-sm-row ">
-                            <span class="me-2"><u>2cl. :</u> <?= $alcool['price2cl'] ?></span>
-                            <span class="me-2"><u>4cl. :</u> <?= $alcool['price4cl'] ?></span>
+                            <?php if(!empty($alcool['price2cl'])){ ?>
+                                <span class="me-2"><u>2cl. :</u> <?php echo number_format($alcool['price2cl'],2) ?></span>
+                            <?php } ?>
+                            <span class="me-2"><u>4cl. :</u> <?php echo number_format($alcool['price4cl'],2) ?></span>
                         </div>
                     </button>
                     </h2>
@@ -128,26 +130,27 @@
                                 <div class="col">
                                     <p><?php echo nl2br($alcool['presentation']) ?></p>
                                 </div>
-                                <div class="col">
-                                    <p><u>Notes de dégustation :</u><br><br><?php echo nl2br($alcool['degustation']) ?></p>
-                                </div>
-
+                                <?php if(!empty($alcool['degustation'])){ ?>
+                                    <div class="col ">
+                                        <p><b><u>Notes de dégustation :</u></b><br><br><?php echo nl2br($alcool['degustation']) ?></p>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){ ?>
                                 <div class="accordion-footer d-flex justify-content-between align-items-center">
                                     <?php if($alcool['active'] == 1){echo '<span class="text-success">Affiché</span>';}else{echo '<span class="text-danger">Caché</span>';} ?>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifier<?= $alcool['id'] ?>">Modifier</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update<?= $alcool['id'] ?>">Modifier</button>
                                 </div>
                         </div>
                     </div>
                 </div>
 <!-- Modification de fiche alcool, Admin only -->
-                <div class="modal fade" id="modifier<?= $alcool['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $alcool['name'] ?>" aria-hidden="true">
+                <div class="modal fade" id="update<?= $alcool['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $alcool['name'] ?>" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
                         <div class="modal-content bg-dark text-light">
                         <form method="post" action="index.php?page=alcool" enctype="multipart/form-data">
                             <div class="modal-header">
-                                <h2 class="modal-title fs-5">Modifier <?= $alcool['name'] ?> (id : <?= $alcool['id'] ?>)</h2>
+                                <h2 class="modal-title fs-5"><?= $alcool['name'] ?> (id : <?= $alcool['id'] ?>)</h2>
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -228,7 +231,7 @@
                                 </div>
                                 <div>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                    <button type="submit" name="maj" value="<?= $alcool['id'] ?>" class="btn btn-success">Valider</button>
+                                    <button type="submit" name="update" value="<?= $alcool['id'] ?>" class="btn btn-success">Modifier</button>
                                 </div>
                             </div>
                         </form>
