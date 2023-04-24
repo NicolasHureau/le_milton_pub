@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="public/design/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body <?php if(empty($_GET) || $_GET['page'] == 'home' AND empty($_SESSION) || $_SESSION['role'] !== 'Admin'){ echo'style="height: 100vh;"';}else{ echo'style="min-height: 100vh;"';} ?> >
+<body <?php if(empty($_GET) || $_GET['page'] == 'home' AND empty($_SESSION) || $_SESSION['role'] !== 'admin'){ echo'style="height: 100vh;"';}else{ echo'style="min-height: 100vh;"';} ?> >
     <header class="sticky-top shadow px-4">
         <h1 class="text-center text-white m-0 d-none d-sm-block">Le <span class="display-1">Milton</span> Pub</h1>
         <nav class="navbar navbar-expand-sm navbar-dark">

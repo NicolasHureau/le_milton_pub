@@ -3,12 +3,20 @@
 ?>
     <section class="container my-3 flex-grow-1">
 <!-- Création de fiche alcool, admin only -->
-        <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){ ?>
+        <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){ ?>
+            <?php
+                if(isset($_GET['error'])){
+                    echo'<div class="alert alert-danger text-center">'.htmlspecialchars($_GET['message']).'</div>';
+                }
+                if(isset($_GET['success'])){
+                    echo'<div class="alert alert-success text-center">'.htmlspecialchars($_GET['message']).'</div>';
+                }
+            ?>
             <div class="text-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newAlcool">Ajouter un nouveau produit</button>
             </div>
             <div class="modal fade" id="newAlcool" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addNewAlcool" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
+                <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
                     <div class="modal-content bg-dark text-light">
                         <form method="post" action="index.php?page=alcool" enctype="multipart/form-data">
                             <div class="modal-header">
@@ -108,13 +116,15 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="<?= $alcool['id'] ?>">
                     <button class="accordion-button collapsed p-1" type="button" data-bs-toggle="collapse" data-bs-target="#description<?= $alcool['id'] ?>" aria-expanded="true" aria-controls="description<?= $alcool['id'] ?>">
-                        <h5 class="text-truncate flex-grow-1 m-0 pb-1"><?= $alcool['name'] ?></h5>
-                        <div class="d-flex flex-column flex-sm-row ">
+                    <div class="row flex-grow-1">
+                        <h5 class="text-truncate col-8 m-0 pb-1"><?= $alcool['name'] ?></h5>
+                        <div class="col-4 d-flex flex-column flex-md-row ">
                             <?php if(!empty($alcool['price2cl'])){ ?>
-                                <span class="me-2"><u>2cl. :</u> <?php echo number_format($alcool['price2cl'],2) ?></span>
+                                <span class="me-2 col-md-6"><u>2cl. :</u> <?php echo number_format($alcool['price2cl'],2) ?></span>
                             <?php } ?>
-                            <span class="me-2"><u>4cl. :</u> <?php echo number_format($alcool['price4cl'],2) ?></span>
+                            <span class="me-2 col-md-6"><u>4cl. :</u> <?php echo number_format($alcool['price4cl'],2) ?></span>
                         </div>
+                    </div>
                     </button>
                     </h2>
                     <div id="description<?= $alcool['id'] ?>" class="accordion-collapse collapse" aria-labelledby="<?= $alcool['id'] ?>" data-bs-parent="#accordionAlcool">
@@ -135,8 +145,38 @@
                                         <p><b><u>Notes de dégustation :</u></b><br><br><?php echo nl2br($alcool['degustation']) ?></p>
                                     </div>
                                 <?php } ?>
+                                <!-- <div class="col">
+                                    <?php if($alcool['comment_count'] !== 0){
+                                        getAlcoolComment($alcool['id']);
+                                        while($comment = $requestComment->fetch()){ ?>
+                                        <p><?= $comment['content'].'<br>'.$comment['pseudo'] ?></p>
+                                        <?php }
+                                    } ?>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-success my-2" data-bs-toggle="modal" data-bs-target="#newComment<?= $alcool['id'] ?>">Ajouter un commentaire</button>
+                                    </div>
+                                    <div class="modal fade" id="newComment<?= $alcool['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="New comment" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content bg-dark text-light">
+                                                <form method="post" action="index.php?page=alcool&type=<?= $alcool['type'] ?>">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="staticBackdropLabel"><?= $alcool['name'] ?></h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <textarea name="content" cols="30" rows="10" class="w-100"></textarea>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                                        <button type="submit" name="newComment" value="<?= $alcool['id'] ?>" class="btn btn-primary">Ajouter</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
                             </div>
-                            <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){ ?>
+                            <?php if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){ ?>
                                 <div class="accordion-footer d-flex justify-content-between align-items-center">
                                     <?php if($alcool['active'] == 1){echo '<span class="text-success">Affiché</span>';}else{echo '<span class="text-danger">Caché</span>';} ?>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update<?= $alcool['id'] ?>">Modifier</button>
@@ -146,7 +186,7 @@
                 </div>
 <!-- Modification de fiche alcool, Admin only -->
                 <div class="modal fade" id="update<?= $alcool['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?= $alcool['name'] ?>" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-full screen-sm-down">
+                    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
                         <div class="modal-content bg-dark text-light">
                         <form method="post" action="index.php?page=alcool" enctype="multipart/form-data">
                             <div class="modal-header">

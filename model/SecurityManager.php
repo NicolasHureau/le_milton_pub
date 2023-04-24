@@ -96,4 +96,11 @@
                 }else{return $user;}
             }
         }
+
+        public static function seeDateFr($date){
+            $date   = date_create($date);
+            $dateFr = date_format($date,'d-m-Y');
+            return $dateFr;
+        }
+
     }

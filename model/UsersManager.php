@@ -80,7 +80,11 @@
             $_SESSION['email']  =$this->getEmail();
             $_SESSION['role']   =$this->getRole();
         }
-
+        public static function getUsers(){
+            $db = self::connection();
+            $requestAdmin = $db->query('SELECT * FROM users');
+            return $requestAdmin;
+        }
         public static function updateUser(
             $id,
             $pseudo,

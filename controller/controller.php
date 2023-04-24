@@ -41,10 +41,40 @@
             exit();
         }
     }
-    function restaurant(){
-        // $restaurantManager = new RestaurantManager();
-        // $request = $restaurantManager->getDishes();
+    function menu($menu){
+        $menuManager = new MenuManager();
+        $request = $menuManager->getPages($menu);
         require('view/restaurantView.php');
+    }
+    function menuAdmin($menu){
+        $menuManager = new MenuManager();
+        $requestAdmin = $menuManager->getPagesAdmin($menu);
+        require('view/restaurantView.php');
+    }
+    function addPage($menu,$image,$active){
+        $menuManager = new MenuManager();
+        $result = $menuManager->addPage($menu,$image,$active);
+        if($result){
+            header('location: index.php?page='.$menu.'&success=1&message=La page a bien été ajoutée.');
+            exit();
+        }
+        else{
+            header('location: index.php?page='.$menu.'&error=1&message=Un problème est survenue.');
+            exit();
+        }
+    }
+    function updatePage($menu,$id,$image,$active){
+        $menuManager = new MenuManager();
+        $result = $menuManager->updatePage($menu,$id,$image,$active);
+        if($result){
+            header('location: index.php?page='.$menu.'&success=1&message=La page a bien été modifier.');
+            exit();
+        }
+        else{
+            header('location: index.php?page='.$menu.'&error=1&message=Un problème est survenue.');
+            exit();
+        }
+
     }
     function drinks(){
         // $drinksManager = new DrinksManager();
@@ -63,6 +93,9 @@
     function alcoolAdmin($type){
         $requestAlcool = AlcoolManager::getAlcoolAdmin($type);
         require('view/alcoolView.php');
+    }
+    function getAlcoolComment($alcoolId){
+        $requestComment = CommentManager::getAlcoolComments($alcoolId);
     }
     function addNewAlcool(
         $name,
@@ -97,7 +130,6 @@
                 header('locaction: index.php?page=alcool&type='.$type.'&error=1&message=Un problème est survenue.');
                 exit();
             }
-
     }
     function updateAlcool(
         $id,
@@ -195,6 +227,10 @@
                     }
             }
     }
+    function clubAdmin(){
+        $requestAdmin = UsersManager::getUsers();
+        require('view/clubView.php');
+    }
     function updateUser(
         $id,
         $pseudo,
@@ -221,11 +257,6 @@
                 header('locaction: index.php?page=club&error=1&message=Un problème est survenue.');
                 exit();
             }
-    }
-    function clubAdmin(){
-        $adminManager = new AdminManager();
-        $requestAdmin = $adminManager->getUsers();
-        require('view/clubView.php');
     }
     function info(){require('view/infoView.php');}
     function recrut(){require('view/recrutView.php');}

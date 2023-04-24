@@ -4,7 +4,7 @@
     try {
         if(isset($_GET['page'])){
             if($_GET['page'] == 'home'){
-                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){
+                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
                     if(isset($_POST['update'])){
                         $id         = htmlspecialchars($_POST['update']);
                         $title      = htmlspecialchars($_POST['title']);
@@ -26,11 +26,26 @@
                 }
                 else{home();}
             } 
-            else if($_GET['page'] == 'restaurant'){restaurant();}
-            else if($_GET['page'] == 'drinks'){drinks();}
-            else if($_GET['page'] == 'wine'){wines();}
+            else if($_GET['page'] == 'restaurant' || $_GET['page'] == 'drinks' || $_GET['page'] == 'wine'){
+                $menu = $_GET['page'];
+                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
+                    if(isset($_POST['new']) && !empty($_FILES)){
+                        $image = setupImage($_FILES['image'],$type = $menu);
+                        if(isset($_POST['active'])){$active = 1;}else{$active = 0;}
+                        addPage($menu,$image,$active);
+                    }
+                    else if(isset($_POST['update'])){
+                        $id = htmlspecialchars($_POST['update']);
+                        if(isset($_FILES['image']) && $_FILES['image']['error'] === 0){$image = setupImage($_FILES['image'],$type = $menu);}else{$image;}
+                        if(isset($_POST['active'])){$active = 1;}else{$active = 0;}
+                        updatePage($menu,$id,$image,$active);
+                    }
+                    else{menuAdmin($menu);}
+                }
+                else{menu($menu);}
+            }
             else if($_GET['page'] == 'alcool'){
-                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){
+                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
                     if(isset($_POST['new'])){
                         if( !empty($_POST['name']) &&
                             !empty($_POST['degree']) &&
@@ -104,7 +119,7 @@
                 else{connection();}
             }
             else if($_GET['page'] == 'club'){
-                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){
+                if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
                     if(isset($_POST['update'])){
                         $id             = htmlspecialchars($_POST['update']);
                         $pseudo         = htmlspecialchars($_POST['pseudo']);

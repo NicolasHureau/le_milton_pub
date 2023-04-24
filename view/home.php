@@ -1,6 +1,6 @@
 <?php
     ob_start();
-    if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){
+    if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
 ?>
 <!-- liste des actualitées pour le carousel, administrator only -->
     <section class="container flex-grow-1">

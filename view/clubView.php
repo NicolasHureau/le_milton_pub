@@ -1,9 +1,17 @@
 <?php
     ob_start();
-    if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'Admin'){
+    if(isset($_SESSION['connect']) && $_SESSION['connect'] == 1 && $_SESSION['role'] == 'admin'){
 ?>
 <!-- Affichage liste des utilisateurs, administrator only -->
     <section class="container d-flex flex-column flex-grow-1">
+        <?php
+            if(isset($_GET['error'])){
+                echo'<div class="alert alert-danger text-center">'.htmlspecialchars($_GET['message']).'</div>';
+            }
+            if(isset($_GET['success'])){
+                echo'<div class="alert alert-success text-center">'.htmlspecialchars($_GET['message']).'</div>';
+            }
+        ?>
         <h3 class="text-center my-3"><u><strong>Liste des inscrits</strong></u></h3>
         <?php while($user = $requestAdmin->fetch()){ ?>
             <div class="card my-1">
@@ -21,13 +29,13 @@
                         <span><?= $user['last_name'] ?></span>
                     </div>
                     <div>
-                        Né(e) le : <?= AdminManager::seeDateFr($user['birthday']); ?>
+                        Né(e) le : <?= SecurityManager::seeDateFr($user['birthday']); ?>
                     </div>
                     <div>
                         Email : <?= $user['email'] ?>
                     </div>
                     <div>
-                        Inscrit(e) le : <?= AdminManager::seeDateFr($user['creation_date']) ?>
+                        Inscrit(e) le : <?= SecurityManager::seeDateFr($user['creation_date']) ?>
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">

@@ -96,13 +96,13 @@
 
         public static function getAlcool($type){
             $db = self::connection();
-            $requestAlcool = $db->prepare('SELECT * FROM alcool WHERE type=? AND active=1');
+            $requestAlcool = $db->prepare('SELECT * FROM alcool WHERE type=? AND active=1 ORDER BY origin, name');
             $requestAlcool->execute([$type]);
             return $requestAlcool;
         }
         public static function getAlcoolAdmin($type){
             $db = self::connection();
-            $requestAlcool = $db->prepare('SELECT * FROM alcool WHERE type=?');
+            $requestAlcool = $db->prepare('SELECT * FROM alcool WHERE type=? ORDER BY origin, name');
             $requestAlcool->execute([$type]);
             return $requestAlcool;
         }
