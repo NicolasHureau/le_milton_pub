@@ -101,7 +101,7 @@
             <div class="carousel-inner h-100">
                 <div class="carousel-item active h-100">
                     <div class="d-flex align-items-center justify-content-center">
-                        <img src="../public/assets/uploads/leschampions.jpg" class="min-vh-100 min-vw-100 object-fit-cover overflow-hidden" alt="Le Milton Pub">
+                        <img src="./public/assets/uploads/leschampions.jpg" class="min-vh-100 min-vw-100 object-fit-cover overflow-hidden" alt="Le Milton Pub">
                     </div>
                     <div class="carousel-caption d-block bg-success rounded" style="--bs-bg-opacity: .4;">
                         <h4 class="display-4">Bienvenue</h4>
@@ -111,7 +111,7 @@
                 <?php while($carouselNews = $requestCarousel->fetch()){ ?>
                     <div class="carousel-item h-100">
                         <div class="d-flex align-items-center justify-content-center">
-                            <img src="../<?= $carouselNews['image'] ?>" class="min-vh-100 min-vw-100 object-fit-cover overflow-hidden" alt="Image pour<?= $carouselNews['title'] ?>">
+                            <img src="./<?= $carouselNews['image'] ?>" class="min-vh-100 min-vw-100 object-fit-cover overflow-hidden" alt="Image pour<?= $carouselNews['title'] ?>">
                         </div>
                         <div class="carousel-caption d-block bg-success rounded" style="--bs-bg-opacity: .4;">
                             <h4><?= $carouselNews['title'] ?></h4>
