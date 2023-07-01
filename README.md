@@ -8,3 +8,8 @@
 Le site a pour but de mettre en avant la gamme "infini" de spiritueux de l'établissement et de permettre une navigation facile tant pour les client que pour l'équipe.
 Il permettra également d'accéder aux autres produits et à la carte du restaurant mais aussi de proposer une page de recrutement pour les personnes souhaitant rejoindre l'équipe.
 
+
+
+
+font :
+https://www.dafont.com/black-chancery.font
